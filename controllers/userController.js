@@ -11,3 +11,7 @@ module.exports.getUserByEmail=(request)=> {
 module.exports.getUserById=(userID)=> {
   return User.findById(userID).select("_id");
 }
+
+module.exports.getAll = ()=>{
+  return User.find({})
+}

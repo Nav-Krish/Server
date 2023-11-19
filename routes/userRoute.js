@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const {
   getUserByEmail,
   getUserById,
+  getAll,
 } = require("../controllers/userController.js");
 const { User, generateToken } = require("../models/userModel.js");
 const jwt = "jsonwebtoken";
@@ -75,7 +76,7 @@ router.post("/forgot-password", async (req, res) => {
     });
 
     // password reset link to be sent to the user via email
-    const link = `http://localhost:5000/user/reset-password/${user._id}/${token}`;
+    const link = `https://password-reset-9wl5.onrender.com/${user._id}/${token}`;
 
     // to send the reset email to the user from the host
     var transporter = nodemailer.createTransport({
@@ -151,8 +152,9 @@ router.post("/reset-password/:id/:token", async (req, res) => {
   });
 
 //home
-router.get("/", (req, res) => {
-  res.send("connected");
+router.get("/", async(req, res) => {
+  const ans= await getAll()
+  res.send(ans)
 });
 
 module.exports = router;
