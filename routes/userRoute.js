@@ -6,7 +6,7 @@ const {
   getAll,
 } = require("../controllers/userController.js");
 const { User, generateToken } = require("../models/userModel.js");
-const jwt = "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
 const router = express.Router();
@@ -76,19 +76,19 @@ router.post("/forgot-password", async (req, res) => {
     });
 
     // password reset link to be sent to the user via email
-    const link = `https://password-reset-9wl5.onrender.com/${user._id}/${token}`;
+    const link = `https://password-reset-9wl5.onrender.com/user/reset-password/${user._id}/${token}`;
 
     // to send the reset email to the user from the host
     var transporter = nodemailer.createTransport({
-      service: "Yandex",
+      service: "Gmail",
       auth: {
-        user: "secondary2101@yandex.com",
-        pass: "ysFcFze4L38483j",
+        user: "navanethakrishnan11@gmail.com",
+        pass: "hxowpwohtsurftqh",
       },
     });
 
     var mailOptions = {
-      from: "secondary2101@yandex.com",
+      from: "navanethakrishnan11@gmail.com",
       to: user.email,
       subject: "Password Reset Link",
       text: link,
@@ -118,10 +118,12 @@ router.get("/reset-password/:id/:token", async (req, res) => {
   }
   // To verify the random string sent via email using jwt
   const secret = "secret_key"+ user.password;
+  res.render("index", { email: user.email, status: "Not Verified" });
   try {
     const verify = jwt.verify(token, secret);
+    console.log(verify);
     // To load the html file where the form is displayed to enter the new password
-    res.render("index", { email: verify.email, status: "Not Verified" });
+    
   } catch (error) {
     res.send("Not Verified");
     console.log(error);
