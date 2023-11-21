@@ -118,12 +118,11 @@ router.get("/reset-password/:id/:token", async (req, res) => {
   }
   // To verify the random string sent via email using jwt
   const secret = "secret_key"+ user.password;
-  res.render("index", { email: user.email, status: "Not Verified" });
   try {
     const verify = jwt.verify(token, secret);
     console.log(verify);
     // To load the html file where the form is displayed to enter the new password
-    
+    res.render("index", { email: verify.email, status: "Not Verified" });
   } catch (error) {
     res.send("Not Verified");
     console.log(error);
