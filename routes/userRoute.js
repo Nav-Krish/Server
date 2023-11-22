@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
     // To check whether the user  already exists in db or not
     const user = await getUserByEmail(req);
     if (!user) {
-      return res.status(404).json({ error: "User does not exists." });
+      return res.status(404).json({ error: "User does not exist." });
     }
     // To validate the password
     const validatePassword = await bcrypt.compare(
